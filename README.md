@@ -5,6 +5,7 @@ This repository contains material for a workshop for learning the basic Statisti
 
 ## Schedule
 
+<br>
 
 ### Day 1 (11/5/22): The basics of using R to analyze data
 
@@ -13,7 +14,7 @@ This repository contains material for a workshop for learning the basic Statisti
 3. Basic statistical methods: hypothesis tests and confidence intervals, resampling methods
 4. Basic statistical modeling: regression models, analysis of variance models
 
-
+<br>
 
 ### Day 2 (11/6/22): Data Science in R
 

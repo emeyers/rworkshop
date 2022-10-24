@@ -23,7 +23,7 @@ This repository contains material for a workshop for learning the basic Statisti
 4. Overview of more advanced features: data scraping, interactive applications
 
 
-\newline
+\
 
 
 ## Installing the rworkshop package

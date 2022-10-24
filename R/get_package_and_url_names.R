@@ -46,7 +46,7 @@ get_github_user_name <- function() {
 
 get_base_url <- function() {
   base_path <- paste0("https://raw.githubusercontent.com/",
-                      github_user_name, "/", package_name, "/master/ClassMaterial/")
+                      github_user_name, "/", package_name, "/main/ClassMaterial/")
   base_path
 }
 

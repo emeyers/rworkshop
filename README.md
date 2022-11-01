@@ -81,5 +81,19 @@ All class material is in the
 directory. In particular the
 [ClassMaterial/slides](https://github.com/emeyers/rworkshop/tree/main/ClassMaterial/slides)
 directory contains the class slides which can be useful to review what
-was covered in class.
+was covered in class (these will be posted prior to the start of the workshop). 
+
+
+## Resources
+
+* [R in Action by Robert Kabacoff]()http://www.cs.uni.edu/~jacobson/4772/week11/R_in_Action.pdf is a great text for the basics of R that we will cover on the first day of the workshop.
+* [R for Data Science](https://r4ds.had.co.nz/) is a great text for learning Data Science analyses in R that we will cover on the second day of the workshop.
+
+Other useful textbooks/resources that are free online are: 
+* [Open Intro](https://www.openintro.org/)
+* [Beyond multiple regression](https://bookdown.org/roback/bookdown-BeyondMLR/)
+* [Modern Data Science with R](https://mdsr-book.github.io/mdsr2e/)
+* [Modern Dive](https://moderndive.com/)
+* [Data Science in a Box](https://datasciencebox.org/)
+
 

@@ -86,8 +86,10 @@ was covered in class (these will be posted prior to the start of the workshop).
 
 ## Resources
 
-* [R in Action by Robert Kabacoff]()http://www.cs.uni.edu/~jacobson/4772/week11/R_in_Action.pdf is a great text for the basics of R that we will cover on the first day of the workshop.
+* [R in Action by Robert Kabacoff](http://www.cs.uni.edu/~jacobson/4772/week11/R_in_Action.pdf) is a great text for the basics of R that we will cover on the first day of the workshop.
 * [R for Data Science](https://r4ds.had.co.nz/) is a great text for learning Data Science analyses in R that we will cover on the second day of the workshop.
+
+<br>
 
 Other useful textbooks/resources that are free online are: 
 * [Open Intro](https://www.openintro.org/)

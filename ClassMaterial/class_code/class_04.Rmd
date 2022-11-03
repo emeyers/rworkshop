@@ -1,0 +1,734 @@
+---
+title: "Day 1 session 4 notes and code"
+output:
+  pdf_document: 
+   fig_width: 7
+   fig_height: 5
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+
+
+$\\$
+
+
+
+<!--  Please run the code in the  R chunk below once. This will install some
+packages and download data and images needed for these exercises.  -->
+
+```{r message=FALSE, warning = FALSE, echo = FALSE, eval = FALSE}
+
+
+rworkshop::download_data("IPED_salaries_2016.rda")  # linear modeling
+
+rworkshop::download_data("downloading.csv")  # one-way ANOVA
+
+rworkshop::download_data("freshman-15.txt")  # random effects model
+
+install.packages("Stat2Data")
+
+
+```
+
+
+
+
+
+
+
+```{r setup, include=FALSE}
+
+# install.packages("latex2exp")
+
+library(latex2exp)
+
+library(dplyr)
+
+
+#options(scipen=999)
+
+
+knitr::opts_chunk$set(echo = TRUE)
+
+# hide all plot output - useful for printing the code
+# knitr::opts_chunk$set(fig.show='hide')
+
+set.seed(123)
+
+```
+
+
+
+
+
+
+$\\$
+
+
+## Overview
+
+
+ * Multiple regression continued: Categorical variables and polynomial regression
+ * Logistic regression
+ * ANOVA
+
+
+
+$\\$
+
+
+
+
+
+
+## Part 1: Multiple regression with categorical predictors
+
+
+Predictors in multiple regression can also be categorical. Let's explore this!
+
+
+
+$\\$
+
+
+
+
+
+
+## Part 1.1: visualzing salaries for different faculty ranks 
+
+
+Let's examine how salary differs between professors of different ranks.
+
+
+
+```{r plot_IPED}
+
+# load the IPED data
+load("IPED_salaries_2016.rda")
+
+
+# create a data set with "Assistant", "Associate", "Full" professors
+IPED_2 <- IPED_salaries |> 
+  filter(endowment > 0) |>
+  mutate(log_endowment = log10(endowment)) |>
+  filter(CARNEGIE %in% c(15, 31)) |>
+  filter(rank_name %in% c("Assistant", "Associate", "Full")) 
+
+
+
+# visualize the data 
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+### Part 1.2a: Fitting a linear model to the data
+
+
+Let's now fit a linear regression model for total salary as a function of log endowment size, but use a separate y-intercept for each of the 3 faculty ranks (and use the same slope for all ranks). We can then use the `summary()` function to extract information about the model.
+
+
+
+```{r lm_fit_offset}
+
+
+
+
+
+```
+
+
+
+**Questions:** 
+
+How much of the total variability does the model explain? 
+
+Are there differences between the Full Professors and the other ranks in terms of their intercepts? 
+
+Also, how much less is an Assistant Professor making relative to a Full Professor?
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+
+### Part 1.2b:  Visualizing the model fit
+
+Let's recreate the scatter plot we created in part 3.2 using the same colors. Now, however, let's also add on the regression lines with different y-intercepts that you fit in part 3.3 (using the appropriate colors to match the colors of the points). 
+
+
+```{r lm_offset_viz}
+
+# recreate the scatter plot of the data with color indicating faculty rank
+
+
+
+
+
+
+# extract the coefficients and plot separate regression lines for each faculty rank
+
+
+
+
+
+
+
+
+
+# add a legend
+
+
+
+
+```
+
+
+**Question** Does using the same slope but different offsets seem to be adequate for capturing the trends in the data? 
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+### Part 1.3a: Fitting models with different intercepts and slopes
+
+
+Now let's fit a linear regression model for total salary as a function of log
+endowment size, but use separate y-intercepts **and slopes** for each of the 3
+faculty ranks.
+
+
+
+```{r lm_fit_slopes}
+
+
+
+
+
+
+
+```
+
+
+
+$\\$
+
+
+
+**Question**: How much of the total sum of squares of faculty salary is this model capturing? 
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+### Part 1.3b: Visualizing the model 
+
+
+Now let's again recreate the scatter plot you created in part 1.2 using the same
+colors and let's add on the regression line with different y-intercepts and
+slopes based on the model you fit in part 1.3a (again use the appropriate
+colors).
+
+
+
+```{r lm_viz_slopes}
+
+# recreate the scatter plot of the data with color indicating faculty rank
+
+
+
+
+
+
+# extract the coefficients and plot separate regression lines for each faculty rank
+
+
+
+
+
+
+```
+
+**Question** Does this model seem like a better fit and do you think there are
+ways you could further improve on this model?
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+### Part 1.4 Comparing models
+
+
+The model you fit in Part 1.2 is nested within the model you fit in Part 1.3. We
+can use the `anova()` function to compare such nested models. Does adding the
+additional slopes for each rank seem to improve the model fit?
+
+
+
+```{r anova_model_comparison}
+
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+## Part 2: Multicolinearity and polynomial regression
+
+
+Let's recreate the assistant professsor data frame for the next set of analyses.
+
+
+```{r assistant_data}
+
+# getting only data for assistant professors - ignore this for now and we will discuss this tomorrow
+assistant_data <- IPED_salaries |>
+  filter(endowment > 0,  rank_name == "Assistant") |>
+  mutate(log_endowment = log10(endowment)) |>
+  mutate(log_enroll = log10(enroll_total)) |>
+  select(school, salary_tot, endowment, log_endowment, enroll_total, log_enroll, salary_men, salary_women) |>
+  na.omit() |>    # get only the cases that do not have missing data
+  arrange(endowment)
+
+```
+
+
+$\\$
+
+
+
+
+### Part 2.1:  Multicolinearity
+
+Multicolinearity occurs when multiple predictors are linearly related to each
+other. Multicolinearity can make our parameter estimates unstable (i.e., it can
+make it so that we have very large standard errors on our estimated regression
+coefficients). We can detect multicolinearity using the `vif()` function from
+the car package.
+
+A VIF value greater than 5 indicates a relatively high degree of multicolinearity. 
+
+
+```{r colinearity}
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+### Part 2.2: Polynomial regression
+
+We can also fit models that have non-linear transformations to our explanatory
+variables. This allows us to fit a much broader range of models to our data. In
+particular, we can fit models that are polynomial functions of our original
+explanatory variables:
+
+$y = \hat{\beta}_0 + \hat{\beta}_1 \cdot x + \hat{\beta}_2 \cdot x^2 + ... + \hat{\beta}_k \cdot + x^k$
+
+Let's fit the following model using the `poly()` function to create an
+orthogonal polynomial expansion of the log endowment term and compare it to a
+degree 1 model.
+
+$\text{salary} = \hat{\beta}_0 + \hat{\beta}_1 \cdot \text{log(endowment)} + \hat{\beta}_2 \cdot \text{log(endowment)}^2 + \hat{\beta}_2 \cdot + \text{log(endowment)}^3$
+
+
+
+
+```{r poly_regression}
+
+
+# refit our original degree 1 model
+
+
+
+
+# fit a cubic model
+
+
+
+# get statistics on our cubic fit
+
+
+
+# compare the r^2
+
+
+
+
+
+# we can visualize the fit too by predicting a sequence of points
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+
+## Part 3: Logistic regression 
+
+
+
+We can fit a logistic regression model using the `glm()` function. To fit a
+logistic regression model, we will use the `family = "binomial"` argument. What
+this function is doing is finding the "maximum likelihood" values for
+$\hat{\beta}_0$ and $\hat{\beta}_1$.
+
+We can use the coefficients from the model to build a function that can give the
+probability of that the faculty rank is Full professor based on the salary
+value:
+
+$P(\text{Full professor} | \text{salary}) = \frac{e^{\hat{\beta}_0 + \hat{\beta}_1 \cdot \text{salary}}}{1 + e^{\hat{\beta}_0 + \hat{\beta}_1 \cdot \text{salary}}}$
+
+
+
+```{r logistic_reg}
+
+
+# get assistant and full professor salaries 
+assistant_full_data <- IPED_salaries |>
+  filter(endowment > 0, rank_name %in% c("Assistant", "Full")) |>
+  select(school, salary_tot, endowment, enroll_total, rank_name) |>
+  na.omit() |>
+  mutate(log_endowment = log10(endowment)) |>
+  mutate(rank_name = relevel(rank_name, "Assistant"))
+
+
+
+
+# build the logistic regression function 
+
+
+
+
+# extract the coefficients
+
+
+
+
+# create the prediction function 
+
+
+
+
+  
+
+# what is the probability that if a school is paying $80,000 on average to a 
+# particular faculty rank, this rank corresponds to the Full professor rank?
+# (instead of the Assistant Professor rank)? 
+
+
+
+
+
+```
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+## Part 4: Analysis of Variance
+
+
+
+### Part 4.1: One-way ANOVA
+
+A college sophomore was interested in knowing whether the time of day affected
+the speed at which he could download files from the Internet. To address this
+question, he placed a file on a remote server and then proceeded to download it
+at three different time periods of the day: 7AM,  5PM,  12AM. He downloaded the
+file 48 times in all, 16 times at each time of day, and recorded the time in
+seconds that the download took.
+
+Let's assess whether the mean download time differs depending on the time of the
+day! In particular we will assess:
+
+$H_0: \mu_{7am} = \mu_{5pm} = \mu_{12am}$
+$H_A: \mu_{i} \ne \mu_{j}$ for some pair of i, j
+
+
+
+```{r download_speeds}
+
+
+# get the data
+download_speeds <- read.csv('downloading.csv', header = TRUE)
+
+
+
+
+
+```
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+
+### Part 4.2: Two-ANOVA
+
+
+Let's use a two-way ANOVA to examine if ants are more attracted to particular
+types of sandwiches! This is a balanced design because there are the same number
+of observations at each factor level combination (in this case there are 4
+observations at each factor combination level).
+
+
+```{r ants}
+
+library(Stat2Data)
+
+data(SandwichAnts)
+
+
+# Two-way interaction plot using base R
+
+
+
+
+# Create a main effects only model (order doesn't matter in a balanced design)
+
+
+
+
+# Could look at diagnostic plots
+
+
+
+
+```
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+### Part 4.3: Repeated measures ANOVA
+
+
+In a repeated measures ANOVA, the same case/observational units are measured at
+each factor level.
+
+To run a repeated measures ANOVA, one gives each observational unit a unique ID,
+and then one treats this ID as another factor in the analysis; i.e., one runs a
+factorial analysis where one of the factors is the observational unit ID.
+
+An advantage of repeated measures ANOVA is similar to the advantage to running a
+paired samples t-test, namely it can reduce a lot of the between observational
+unit variability making it easier to see effects that are present. In fact,
+running a repeated measures ANOVA with a factor that only has two levels is
+equivalent to running a paired samples t-test. Let's explore this using the
+example of Freshman gaining weight from homework 4.
+
+
+```{r freshmen}
+
+# load the data
+freshman <- read.table("freshman-15.txt", header = TRUE) %>%
+  mutate(Subject = as.factor(Subject))
+
+
+# independent sample t-test
+
+
+
+
+# run a paired t-test testing H0: mu_diff = 0 vs. HA: mu_diff > 0, 
+#   where mu_diff = mu_end_i - mu_start_i 
+
+
+
+
+# let's transform to put it in a long format
+freshman_long <- tidyr::pivot_longer(freshman, 
+                                     cols = c("Initial.Weight", "Terminal.Weight"),
+                                     names_to = "time_period", 
+                                     values_to = "weight")
+
+
+
+# let's run run a repeated measures ANOVA 
+# we have the same p-value, and F = t^2
+
+
+
+
+```
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+### Part 4.4: Random/mixed effects models
+
+
+In the example above, we treated each participant as a factor. However, we don't
+really care about specific individuals in a study, but rather we care about an
+underlying distribution that participants come from. We can model participants'
+weight and being randomly sampled from an underlying distribution using a random
+effects model.
+
+
+```{r random_effects}
+
+library(lme4)
+
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+# Tomorrow: R for Data Science!!!
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,513 @@
+---
+title: "Day 1 session 3 notes and code"
+output:
+  pdf_document: 
+   fig_width: 7
+   fig_height: 5
+  html_document: default
+editor_options: 
+  chunk_output_type: console
+---
+
+
+
+
+
+$\\$
+
+
+
+<!--  Please run the code in the  R chunk below once. This will install some
+packages and download data and images needed for these exercises.  -->
+
+```{r message=FALSE, warning = FALSE, echo = FALSE, eval = FALSE}
+
+
+download.file("https://www.openintro.org/data/rda/resume.rda", "resume.rda") # hypo test proportions
+
+rworkshop::download_data("gingko_RCT.rda") # hypo test means
+
+rworkshop::download_data("amazon.rda")   # hypo test correlation
+
+rworkshop::download_data("IPED_salaries_2016.rda")  # linear modeling
+
+rworkshop::download_data('downloading.csv'). # one-way ANOVA
+
+rworkshop::download_data("freshman-15.txt"). # random effects model
+
+```
+
+
+
+
+
+
+
+```{r setup, include=FALSE}
+
+# install.packages("latex2exp")
+
+library(latex2exp)
+
+library(dplyr)
+
+
+#options(scipen=999)
+
+
+knitr::opts_chunk$set(echo = TRUE)
+
+# hide all plot output - useful for printing the code
+# knitr::opts_chunk$set(fig.show='hide')
+
+set.seed(123)
+
+```
+
+
+
+
+
+
+$\\$
+
+
+
+## Overview
+
+
+ * Hypothesis test for:
+   - means
+   - proportions
+   - correlation
+   
+  * Permutation test for correlation
+
+  * Simple linear regression
+
+
+
+$\\$
+
+
+
+## Part 1: parametric hypothesis test
+
+
+
+$\\$
+
+
+
+### Part 1.1:  Parametric hypothesis test for means
+
+
+Does Gingko change cognitive abilities? 
+
+
+$H_0: \mu_{gingko} - \mu_{control} = 0$
+$H_A: \mu_{gingko} - \mu_{control} \ne 0$
+
+
+
+```{r gingko}
+
+# load the gingko data
+load("gingko_RCT.rda")
+
+
+# plot the data
+
+
+
+# run a t-test
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+### Part 1.2:  Parametric hypothesis test for proportions
+
+
+Do resumes with female sounding names get fewer call backs than resumes with male sounding names? 
+
+
+$H_0: \pi_{female} = \pi_{male}$ 
+$H_A: \pi_{female} \ne \pi_{male}$ 
+
+
+
+The function `prop.test()` takes a table with two columns giving the counts of successes and failures, respectively.
+
+
+```{r resumes}
+
+# load the data
+load("resume.rda")
+
+
+# get a table showing call backs for male and female sounding names
+
+
+
+# visualize the data
+
+
+
+# run a hypothesis test
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+### Part 1.3:  Parametric hypothesis test for correlation
+
+Do books with more pages cost more? 
+
+
+$H_0: \rho = 0$
+
+$H_0: \rho > 0$
+
+
+
+
+```{r books}
+
+# load the data
+load("amazon.rda")
+
+
+# extract the number of pages and price
+
+
+
+
+# plot the data
+
+
+
+
+# run the hypothesis test
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+## Part 2: Permutation test for correlation
+
+
+```{r permtest_corr}
+
+
+# calculate the observed statistic
+
+
+
+# create the null distribution 
+
+
+
+
+
+
+
+# visualize the null distribution 
+
+
+
+
+
+# Calculate the two-tailed p-value
+
+
+  
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+## Part 3: simple linear regression 
+
+
+Let's look at the relationship between how much faculty get paid and the size of a school's endowment. 
+
+
+
+$\\$
+
+
+
+### Part 3.1: Visualize the data
+
+
+
+```{r}
+
+library(dplyr)
+
+load("IPED_salaries_2016.rda")
+
+
+# getting only data for assistant professors - ignore this for now and we will discuss this tomorrow
+assistant_data <- IPED_salaries |>
+  filter(endowment > 0,  rank_name == "Assistant") |>
+  mutate(log_endowment = log10(endowment)) |>
+  mutate(log_enroll = log10(enroll_total)) |>
+  select(school, salary_tot, endowment, log_endowment, enroll_total, log_enroll, salary_men, salary_women) |>
+  na.omit() |>    # get only the cases that do not have missing data
+  arrange(endowment)
+
+
+
+
+# visualize the data
+
+
+
+
+# visualize log10 transformation of the endowment
+
+
+
+
+```
+
+
+
+
+$\\$
+
+
+
+
+
+
+### Part 3.2: Fitting a linear regression model
+
+
+Let's now fit a linear model to our data to predict faculty salaries from the `log10` of the endowment. 
+
+
+
+```{r linear_fit}
+
+
+# fit a regression model
+
+
+
+# plot the data and add the regression line to the plot
+
+
+
+
+# look at the coefficients (beta hat's)
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+### Part 3.3: Hypothesis tests for regression coefficients using parametric methods
+
+
+Let's use the t-statistic and t-distribution to do parametric inference on
+whether the regression offset $\beta_0$, and the regression slope $\beta_1$, are
+different than 0. This means we are testing the hypotheses:
+
+$H_0: \beta_0 = 0$
+$H_A: \beta_0 \ne 0$
+
+
+and
+
+
+$H_0: \beta_1 = 0$
+$H_A: \beta_1 \ne 0$
+
+
+
+```{r reg_hypothesis_tests}
+
+
+# Assessing if the regression coefficients are statistically significant
+
+
+
+```
+
+
+
+$\\$
+
+
+
+
+### Part 3.3: Calculating confidence intervals for regression coefficients
+
+
+
+```{r reg_CIs}
+
+# get a confidence interval for the regression coefficients
+
+
+
+```
+
+
+
+
+$\\$
+
+
+
+
+
+### Part 3.4: Regression diagnostics
+
+
+```{r regression_diagnostics}
+
+
+# view the regression diagnostic plots
+
+
+
+
+
+```
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+## Part 4: Multiple regression 
+
+
+Let's look at multiple regression where we have more than 1 predictor
+
+
+$\\$
+
+
+
+### Part 4.1: Multiple regression
+
+
+Let's build a regression model where we try to predict salary as a function of log endowment and log enrollment.
+
+
+```{r}
+
+# make it so there are no longer subplots
+par(mfrow = c(1, 1))
+
+
+# plot the relationship between log enrollment and salary
+
+
+
+# build the regression model
+
+
+
+
+
+```
+
+
+
+
+$\\$
+
+
+
+
+
+### Part 4.2: Test for comparing nested models
+
+
+When we have nested models, we can use an ANOVA test based on the F-statistic to
+assess if adding additional explanatory variables leads to a model that can
+account for more of the variability in a response variable.
+
+
+A Model 1 is nested in a Model 2 if the parameters in Model 1 are a subset of
+the parameters in Model 2. Here, our model using only the endowment as the
+explanatory variable is nested within in the model that uses endowment and
+enrollment as explanatory variables. Let's uses the `anova()` function to test
+if adding the enrollment explanatory leads to a statistically significant
+increase in the amount of variability that can be accounted for.
+
+
+```{r}
+
+# use anova function to test nested models
+
+
+
+```
+
+
+
+
+$\\$
+
+
+

@@ -1,0 +1,640 @@
+---
+title: "Day 1 session 2 notes and code"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+<!--  Please run the code in the  R chunk below once. This will install some
+packages and download data and images needed for these exercises.  -->
+
+```{r message=FALSE, warning = FALSE, echo = FALSE, eval = FALSE}
+
+rworkshop::download_data("daily_bike_totals.rda")
+rworkshop::download_data("profiles_revised.csv")
+
+
+```
+
+
+
+
+
+## Part 1: Examining categorical data
+
+Categorical variables take on one of a fixed number of possible values 
+
+For categorical variables, we usually want to view:
+
+ * How many items are each category    or
+ * The proportion (or percentage) of items in each category
+
+
+
+
+$\\$
+
+
+
+
+### Part 1.1: Count tables
+
+
+Let's examine categorical data by looking at drinking behavior on OkCupid
+
+
+```{r categorical_1}
+
+# read the data into a data frame
+profiles <- read.csv("profiles_revised.csv")
+
+
+# Get information about drinking behavior
+drinking_vec <- profiles$drinks
+
+# Create a table showing how often people drink
+drinks_table <- table(drinking_vec)
+drinks_table
+
+```
+
+
+
+
+
+$\\$
+
+
+
+### Part 1.2: Relative frequency tables
+
+
+
+We can create a relative frequency table using the function: `prop.table(my_table)` 
+
+Can you create a relative frequency table for the drinking behavior of the people in the okcupid data set in the R chunk below? 
+
+
+```{r categorical_2}
+
+drinks_table <- table(profiles$drinks)
+prop.table(drinks_table)
+
+```
+
+
+
+
+
+$\\$
+
+
+
+### Part 1.3: bar plots (no pun intended)
+
+
+
+
+We can plot the number of items in each category using a bar plot: barplot(my_table) 
+
+Can you create a bar plot for the drinking behavior of the people in the okcupid data set? 
+
+```{r categorical_3}
+
+drinks_table <- table(profiles$drinks)
+barplot(drinks_table)
+
+```
+
+
+
+
+
+$\\$
+
+
+
+### Part 1.4: pie charts
+
+
+
+Is there a problem with using the bar plot function without any of the extra arguments? 
+
+[XKCD illusterates the point](https://xkcd.com/833/)
+
+Can you figure out how to fix your plot? 
+
+We can also create pie charts using the pie function
+
+```{r categorical_4}
+
+pie(prop.table(table(profiles$sex, useNA = "always")))
+
+```
+
+
+
+Some pie charts [are more informative than others](http://robslink.com/SAS/democd91/pyramid_pie.htm)
+
+
+
+
+$\\$
+
+
+
+
+[There are other websites/apps for dating as well](https://i.kym-cdn.com/photos/images/original/001/293/992/d80.jpg)
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+## Check out the (older) OkCupid data analysis blog
+
+
+For example, here is an interesting article on [The Big Lies People Tell In Online Dating](https://theblog.okcupid.com/the-big-lies-people-tell-in-online-dating-a9e3990d6ae2). 
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+## Part 2: Examining quantiative data
+
+
+$\\$
+
+
+### Part 2.1:  Statistics for central tendency 
+
+There are several summary statistics useful for describing quantitative data
+such as the mean and the median. Use the `mean()` and `median()` functions to
+extract measures of the central tendency for OkCupid user's heights.
+
+
+```{r quantitative_1}
+
+mean(profiles$height)
+
+```
+
+
+
+
+What went wrong? 
+
+
+We can ignore missing values using the `na.rm = TRUE` argument
+
+
+```{r quantitative_2}
+
+mean(profiles$height, na.rm = TRUE)
+median(profiles$height, na.rm = TRUE)
+
+```
+
+
+
+
+$\\$
+
+
+
+
+
+
+### Part 2.2:  Histograms
+
+
+We can plot histograms of heights using the `hist()` function. 
+
+```{r quantitative_4}
+
+hist(profiles$height)
+hist(profiles$height, breaks = 50)
+
+```
+
+
+
+
+$\\$
+
+
+
+
+We can add lines to our plots using the abline() function. For example abline(v
+= 60) would add a vertical line at the value of 60. Can you add a vertical line
+at the average OkCupid user's height?
+
+
+
+```{r quantitative_5}
+
+     hist(profiles$height, breaks = 50, xlim = c(50, 90))
+     abline(v = mean(profiles$height, na.rm = TRUE), col = "red")
+
+```
+
+
+
+
+$\\$
+
+
+
+
+
+### Part 2.3:  Boxplots
+
+
+
+Boxplots visually show a version of a 5 number summary (min, Q1, median, Q3,
+max). We can create boxplots using the `boxplot()` function.
+
+Create a boxplot of OkCupid user's heights.
+
+
+```{r quantitative_6}
+
+boxplot(profiles$height, ylab = "Heights (inches)", main = "OkCupid users' heights")
+
+
+```
+
+If there are extreme outliers in a plot we need to investigate them. If they are
+errors we can remove them, otherwise we need to take them into account.
+
+
+
+$\\$
+
+
+
+
+
+
+### Part 2.4:  Scatter plots and time series
+
+
+
+Let's now look at data from CitiBike in New York City. How many cases are there
+any how many variables? What does each case correspond to?
+
+
+```{r quantitative_7}
+
+load("daily_bike_totals.rda")
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+Scatter plots show the relationships between two quantitative variables. We can
+use the `plot(x, y)` function to create scatter plots. Create a scatter plot of
+the maximum temperature as a function of the minimum temperature. Also create a
+scatter plot of the number of trips as a function of the date.
+
+
+
+```{r quantitative_8}
+
+plot(bike_daily_data$min_temperature, bike_daily_data$max_temperature)
+plot(bike_daily_data$date, bike_daily_data$trips)
+
+```
+
+
+
+$\\$
+
+
+
+
+
+## Part 3: Generating random data and probability functions 
+
+
+$\\$
+
+
+
+### Part 3.1: Generating random data
+
+
+There are a series of R functions that can generage random data. They are all start with the letter r. 
+
+ * `rnorm()`: normal 
+ * `runif()`: uniform 
+ * `rexp()`: exponential
+ * `rbinom()`: binomial 
+
+
+Let's plot 1000 randomly generated points from a normal distribution.
+
+
+```{r random_data}
+
+rand_data <- rnorm(1000)
+
+hist(rand_data, breaks = 20)
+
+```
+
+
+
+$\\$
+
+
+
+
+### Part 3.2: Calculating probabilities
+
+
+
+We can also get the probability a random variable X will be less than a
+particular value x; i.e., P(X < x) using functions that start with the letter p.
+
+
+ * `pnorm()`: normal 
+ * `punif()`: uniform 
+ * `pexp()`: exponential
+ * `pbinom()`: binomial 
+
+
+What is the probability we will get a value less than 0 from a standard normal distribution? 
+
+
+```{r probability}
+
+pnorm(0)
+
+```
+
+
+$\\$
+
+
+
+
+
+### Part 3.2: Getting quantile values
+
+
+
+We can get quantiles using functions that start with the letter q. 
+
+
+ * `qnorm()`: normal 
+ * `qunif()`: uniform 
+ * `qexp()`: exponential
+ * `qbinom()`: binomial 
+
+
+What is the quantile value q such that area 97.5% of the area under a normal distribution is less than q?
+
+
+```{r quantiles}
+
+qnorm(.975)
+
+```
+
+
+$\\$
+
+
+
+
+## Part 4: For loops  
+
+
+$\\$
+
+
+
+### Part 4.1: For loop basics
+
+
+
+For loops are useful when you want to repeat a piece of code many times under similar conditions
+
+Print the numbers from 1 to 50...
+
+
+```{r}
+
+for (i in 1:50) {
+	print(i)
+}
+
+
+```
+
+
+
+$\\$
+
+
+
+
+### Part 4.2: For loop working with vectors
+
+
+
+For loops are particular useful in combination with vectors that can store the results.
+
+Create a vector with the squares of the numbers from 1 to 50. 
+
+
+
+```{r}
+
+# create a loop that creates a vector with the squares of the numbers from 1 to 50. 
+the_results <- NULL
+for (i in 1:50) {
+	the_results[i] <- i^2
+}
+
+
+# plot the results
+plot(the_results, 
+     type = "o",
+     xlab = "x", 
+     ylab = "2^x")
+
+
+```
+
+
+
+
+$\\$
+
+
+
+
+### Part 4.3: Simulating a sampling distribution
+
+
+We can use a for loop to simulate a sampling distribution.
+
+
+
+```{r sampling_dist}
+
+sampling_dist <- NULL
+
+# create a sampling distribution of the mean using data from a uniform distribution
+for (i in 1:1000){
+  
+  rand_sample <- runif(100) 
+  sampling_dist[i] <- mean(rand_sample)
+  
+}
+
+
+# plot a histogram of the sampling distribution of these means 
+hist(sampling_dist, breaks = 100,
+     xlab = bquote(bar(x)), 
+     main = "Sampling distribution of the sample mean")
+
+
+```
+
+
+
+$\\$
+
+
+
+
+## Part 5: Writing functions
+
+
+So far we have used several different functions that come with R. We can write
+our own function using the `function()` function.
+
+
+
+
+### Part 5.1: Writing a simple function
+
+
+Let's write a function called `cube_it()` that takes a value `x` and returns `x` cubed.
+
+
+
+```{r writing_functions}
+
+
+# the square root function
+sqrt(49)
+
+
+
+# a function that takes a value to the third power
+cube_it <- function(x) {
+  
+  x^3
+
+}
+
+
+cube_it(2)
+
+
+```
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+### Part 5.2: Additional function arguments
+
+
+We can specify additional arguments which can also have default values. 
+
+Let's write a function called `power_it` which takes a value `x` and a value
+`pow` and returns `x` to the pow power. Let's also have the default value of the
+`pow` argument be 3.
+
+
+```{r writing_functions2}
+
+
+# a function that takes a value to the third power
+power_it <- function(x, pow = 3) {
+  
+  x^pow
+
+}
+
+
+
+power_it(2)
+
+power_it(2, 8)
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+

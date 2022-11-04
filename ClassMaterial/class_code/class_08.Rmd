@@ -1,0 +1,515 @@
+---
+title: "Day 2 session 4 notes and code"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+
+
+
+
+$\\$
+
+
+
+<!--  Please run the code in the  R chunk below once. This will install some packages and download data and images needed for these exercises.  -->
+
+```{r message=FALSE, warning = FALSE, echo = FALSE, eval = FALSE}
+
+# makes sure you have all the packages we have used in class installed
+# rworkshop::update_installed_packages()
+
+
+```
+
+
+
+
+```{r setup, include=FALSE}
+
+# install.packages("latex2exp")
+
+library(latex2exp)
+library(dplyr)
+library(ggplot2)
+
+#options(scipen=999)
+
+
+knitr::opts_chunk$set(echo = TRUE)
+
+set.seed(123)
+
+```
+
+
+
+$\\$
+
+
+
+
+## Overview
+
+ * String manipulation
+
+
+
+$\\$
+
+
+
+
+
+
+## Part 1: String manipulation using stringr
+
+
+$\\$
+
+
+##### Part 1.1: Base R and stringr
+
+
+```{r}
+
+library(stringr)
+
+
+
+
+
+
+
+```
+
+
+
+$\\$
+
+
+##### Part 1.2: Trimming and padding a string
+
+
+```{r}
+
+
+
+
+
+
+
+
+```
+
+
+
+$\\$
+
+
+
+##### Part 1.3: Extracting a piece of a string
+
+
+```{r}
+
+
+fruits <- c("apple", "pineapple", "Pear", "orange",  "peach", "banana")
+
+
+
+
+```
+
+
+
+$\\$
+
+
+
+##### Part 1.4: Concatenating strings
+
+
+```{r}
+
+
+
+
+
+
+
+```
+
+
+
+$\\$
+
+
+
+
+
+##### Part 1.5: Download an article
+
+
+
+```{r}
+
+
+#base_name <- "https://www.washingtonpost.com/politics/2021/11/16/white-house-says-democratic-infighting-has-hurt-biden/"
+#article_name <- "infighting.html"
+#full_name <- str_c(base_name) #, article_name)
+
+
+base_name <- "https://www.nytimes.com/2021/11/17/us/"
+article_name <- "catholic-bishops-biden-communion.html"
+full_name <- str_c(base_name, article_name)
+
+
+# download.file(full_name, article_name)
+
+
+# viewer <- getOption("viewer")
+# viewer(article_name)
+
+
+
+
+```
+
+
+
+$\\$
+
+
+##### Part 1.6: string length
+
+
+
+```{r}
+
+
+
+
+
+
+
+
+
+
+
+```
+
+
+
+$\\$
+
+
+
+##### Part 1.7: string replace all
+
+
+```{r}
+
+
+
+
+
+
+
+
+```
+
+
+
+
+$\\$
+
+
+##### Part 1.8: String split
+
+
+```{r}
+
+
+
+
+
+
+
+
+```
+
+
+
+
+$\\$
+
+
+##### Part 1.9: Extracting strings
+
+
+```{r}
+
+
+
+
+
+
+
+
+```
+
+
+
+$\\$
+
+
+##### Part 1.10: Detecting a string
+
+
+```{r}
+
+
+
+
+
+
+```
+
+
+
+$\\$
+
+
+
+
+
+## Part 2: Regular expressions
+
+
+We can use regular expressions to do a lot more complex string matching!
+
+
+
+
+$\\$
+
+
+
+
+
+### Part 2.1: Start and end of strings
+
+Using regular expression we can match the start and end of words using: 
+
+* Match the start of a string with ^
+* Match the end of a string with $
+* [Aa] detects a lower or upper case A
+
+
+
+```{r start_end}
+
+# detect all fruits that end with e
+
+
+
+# detect all fruits that start with lower or upper case P
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+### Part 2.2: Matching characters 
+
+
+Using regular expression match characters using: 
+
+
+* Match any character with .
+* Match 0 or more characters with *
+* Match 1 or more characters with +
+
+
+
+```{r any_characater}
+
+# detect "mess", "mass", and "miss" from the following string
+
+
+
+
+# detect all the strings from the xz_string
+
+
+
+
+# detect all but the first string from the xz_string
+
+
+
+
+```
+
+
+
+
+$\\$
+
+
+
+
+
+### Part 2.3: Matching anything in a range
+
+* [ ] means match anything in the range inside the braces 
+* If the ^ appears inside square braces it means not
+
+
+```{r range_detect}
+
+# detect all fruits that start with a vowel
+
+
+# detect all these strings
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+### Part 2.4: Detecting repeats
+
+
+* {num} means repeat the preceding sequence num times
+* () groups things together, useful in combination with {}
+
+```{r repeats}
+
+# detect all fruits with an in them 
+
+
+
+# detect all fruits with anan in them 
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+### Part 2.5: Example - extracting phone numbers
+
+Can you extract all the phone numbers from these strings? 
+
+
+```{r phone_numbers}
+
+input_strings <- c(
+	"apple", 
+  	"219 733 8965", 
+  	"329-293-8753", 
+  	"Work: 579-499-7527",
+	"Home: 543.355.3679"
+)
+
+
+
+
+
+
+
+
+```
+
+
+
+$\\$
+
+
+
+
+
+### Part 2.6: Escape sequences
+
+
+In regular expressions a period (.) means any character. So how can you detect if a period is in a string? 
+
+Escape sequences in R start with two slashes \\ and cause the next character to be treated literally rather than as a special character
+To match a period we use   `\\.`            [.] also works
+To match a `$` symbol we use  `\\$`
+
+
+
+```{r escape_sequences}
+
+# Extract the amounts of money and dollar sign from this string  (use str_extract_all) 
+the_string  <-  c("Joanna has $100 and Chris has $0") 
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+### Part 2.7: Special characters
+
+
+Other special characters are also designated by using a double slash first
+\\s   space
+\\n   new line     or also   \\r
+\\t   tab
+
+
+```{r special_characters}
+
+# get 6 characters prior to the end of a line in the_article
+
+
+
+# extract all lines that have html tags at the end of the line
+# i.e., that have </ > at the end of a line
+
+
+
+
+```
+
+

@@ -21,7 +21,7 @@ This repository contains material for a workshop for learning the basic Statisti
 1. [Data manipulation using dplyr](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_02_session_01_slides.pdf)
 2. [Data visualization using ggplot](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_02_session_02_slides.pdf)
 3. [Additional topics: joining data and spatial mapping](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_02_session_03_slides.pdf)
-4. [Overview of more advanced features: string manipulation, interactive applications((https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_02_session_04_slides.pdf)
+4. [Overview of more advanced features: string manipulation, interactive applications](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_02_session_04_slides.pdf)
 
 
 <br>

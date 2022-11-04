@@ -9,10 +9,10 @@ This repository contains material for a workshop for learning the basic Statisti
 
 ### Day 1 (11/5/22): The basics of using R to analyze data
 
-1. Basics of R: navigating R/R Studio, basic programming and data structures, functions
-2. Basic statistics: statistics and plots for categorical and quantitative data
-3. Basic statistical methods: hypothesis tests and confidence intervals, resampling methods
-4. Basic statistical modeling: regression models, analysis of variance models
+1. [Basics of R](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_01_session_01_slides.pdf): navigating R/R Studio, basic programming and data structures, functions
+2. [Basic statistics](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_01_session_02_slides.pdf): statistics and plots for categorical and quantitative data
+3. [Basic statistical methods](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_01_session_03_slides.pdf): hypothesis tests and confidence intervals, resampling methods
+4. [Basic statistical modeling](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_01_session_04_slides.pdf): regression models, analysis of variance models
 
 <br>
 

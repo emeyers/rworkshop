@@ -9,19 +9,19 @@ This repository contains material for a workshop for learning the basic Statisti
 
 ### Day 1 (11/5/22): The basics of using R to analyze data
 
-1. Basics of R: navigating R/R Studio, basic programming and data structures, functions
-2. Basic statistics: statistics and plots for categorical and quantitative data
-3. Basic statistical methods: hypothesis tests and confidence intervals, resampling methods
-4. Basic statistical modeling: regression models, analysis of variance models
+1. [Basics of R](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_01_session_01_slides.pdf): navigating R/R Studio, basic programming and data structures, functions
+2. [Descriptive statistics](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_01_session_02_slides.pdf): statistics and plots for categorical and quantitative data
+3. [Statistical inference methods](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_01_session_03_slides.pdf): hypothesis tests and confidence intervals, resampling methods
+4. [Statistical models](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_01_session_04_slides.pdf): regression models, analysis of variance models
 
 <br>
 
 ### Day 2 (11/6/22): Data Science in R
 
-1. Data manipulation using dplyr
-2. Data visualization using ggplot
-3. Additional topics: joining data and spatial mapping
-4. Overview of more advanced features: data scraping, interactive applications
+1. [Data manipulation using dplyr](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_02_session_01_slides.pdf)
+2. [Data visualization using ggplot](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_02_session_02_slides.pdf)
+3. [Joining, mapping, and reshaping data](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_02_session_03_slides.pdf)
+4. [String manipulation, interactive applications](https://github.com/emeyers/rworkshop/raw/main/ClassMaterial/slides/day_02_session_04_slides.pdf)
 
 
 <br>

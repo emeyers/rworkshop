@@ -375,6 +375,10 @@ To start our mapping practice, let's plot Yale's location (longitude = -72.9223,
 ```{r}
 
 
+library(maps)
+library(mapproj)
+
+
 # Get the map of the States
 
 

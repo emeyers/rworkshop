@@ -31,6 +31,15 @@ $\\$
 
 
 
+<!--  Please run the code in the  R chunk below once. This will install some packages and download data and images needed for these exercises.  -->
+
+```{r message=FALSE, warning = FALSE, echo = FALSE, eval = FALSE}
+
+
+rworkshop::download_data("moby_dick.txt")
+
+```
+
 
 
 
@@ -42,8 +51,6 @@ $\\$
     set.seed(1)  # set the random number generator to always give the same sequence of random numbers
     library(stringr)  # use stringr for string manipulation
 ```
-
-
 
 
 
@@ -61,7 +68,7 @@ $\\$
 
 ```{r message=FALSE, warning=FALSE, tidy=TRUE}
 
-file_name <- '/home/shared/data_science_2018/moby_dick.txt'
+file_name <- "moby_dick.txt"
 the_book <- readChar(file_name, file.info(file_name)$size)
 
 

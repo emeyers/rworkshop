@@ -22,14 +22,13 @@ packages and download data and images needed for these exercises.  -->
 
 ```{r message=FALSE, warning = FALSE, echo = FALSE, eval = FALSE}
 
+install.packages("Stat2Data")
 
 rworkshop::download_data("IPED_salaries_2016.rda")  # linear modeling
 
 rworkshop::download_data("downloading.csv")  # one-way ANOVA
 
 rworkshop::download_data("freshman-15.txt")  # random effects model
-
-install.packages("Stat2Data")
 
 
 ```

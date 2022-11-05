@@ -31,9 +31,9 @@ rworkshop::download_data("amazon.rda")   # hypo test correlation
 
 rworkshop::download_data("IPED_salaries_2016.rda")  # linear modeling
 
-rworkshop::download_data('downloading.csv'). # one-way ANOVA
+rworkshop::download_data('downloading.csv') # one-way ANOVA
 
-rworkshop::download_data("freshman-15.txt"). # random effects model
+rworkshop::download_data("freshman-15.txt") # random effects model
 
 ```
 

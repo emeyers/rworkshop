@@ -13,7 +13,7 @@
 #' @export
 download_exercise <- function(exercise_number) {
 
-  base_path <- paste0(get_base_url(), "exercise/")
+  base_path <- paste0(get_base_url(), "exercises/")
   file_name <- paste0("exercise_", sprintf("%02d", exercise_number), ".Rmd")
 
   # if a file already exists with this name, don't download the file

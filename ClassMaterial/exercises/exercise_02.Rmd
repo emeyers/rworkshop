@@ -1,0 +1,410 @@
+---
+title: "Moby Dick in Pig Latin"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+
+
+
+## Author:  
+
+## Discussants: 
+
+========================================================
+
+
+
+
+In the following exercises we practice doing string manipulations and regular
+expressions by using stringr library to translate the book Moby Dick back into
+its original [Pig Latin](https://en.wikipedia.org/wiki/Pig_Latin). The following
+steps will walk to through the process of doing this conversion.
+
+  
+  
+
+
+
+$\\$
+
+
+
+
+
+
+
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+    library(knitr)
+    # makes sure the code is wrapped to fit when it creats a pdf
+    opts_chunk$set(tidy.opts=list(width.cutoff=60))   
+    set.seed(1)  # set the random number generator to always give the same sequence of random numbers
+    library(stringr)  # use stringr for string manipulation
+```
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+**Step 1**: Load Moby Dick as a string into R 
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+file_name <- '/home/shared/data_science_2018/moby_dick.txt'
+the_book <- readChar(file_name, file.info(file_name)$size)
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+
+**Step 2**: Get rid of one or more new line characters (\\n) and (\\r) also \\f.
+Save the results to a new variable called the_book2.
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+```
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+**Step 3a**: Get rid of punctuation of the period (.) the comma (,), and the
+semicolon (;)  - i.e., replace all their occurances with "".  Save the results
+to a new variable called the_book3.
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+**Step 3b**: Also replace all occurances of the the em dash (—) with a space.
+Note that em dash (—) is different from the regular dash (-) (hint: just to use
+cut and paste the character here: — ). Save the results to an object the_book4.
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+
+**Step 4**: Convert the book from one long string, into a character vector that
+has a separate word in each index in the vector. Save the results to a new
+variable called moby_words. Hint: the str_split() function returns a list, so to
+convert this list to a vector use the unlist() function).
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+
+
+**Step 5**: Create a vector called vowel_inds that has TRUEs where ever there is
+a vowel and a FALSE where ever ther is a consonant. Similarly create a vector
+called consonant_inds that has TRUEs for words that start with consonants and
+FALSEs for words that start with vowels.
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+```
+
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+**Step 6**: Let's first deal with the words that start with vowels. Add the
+suffix "way" to the end of all words that start with a value. Hint: you should
+use moby_words[vowel_inds] to get the words that start with a value, and also
+you should assign the results back to moby_words[vowel_inds].
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+```
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+**Step 7**: Let's now deal with the words that start with consonants. This will
+take a few steps. First, create a vector called consonant_words that holds all
+the words that start with consonants.
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+```
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+**Step 8**: Now create another vector called first_consonant_plus_ay that has
+the first consonant from all the consonant words with a "ay" appended to the
+end.
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+
+```
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+**Step 9**: Next create a vector consonant_words_no_first_letter that has all
+the consonant words with the first letter removed.
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+**Step 10**: Now create an object called consonant_converted that concatenates
+the words with the first letter missing to the words that have the first letter
+plus "ay".
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+
+```
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+
+**Step 11**: Next put these words back into the moby_words vector in the
+appropriate place (hint: the consonant_inds vector will be useful here).
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+```
+
+
+
+
+
+
+
+$\\$
+
+
+
+
+
+
+
+**Step 12**: Finally concatenate all the words in the word vector back into one
+big string. Hint: the collapse option to the str_c function will be helpful!
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+
+
+```
+
+
+
+
+
+$\\$
+
+
+
+
+
+**Step 13**: Now print out the first 500 characters of the book. Use the strwrap
+function so that the output is all visible in the Markdown document. Is the
+conversion perfect or is there something mission from the original document?
+
+```{r message=FALSE, warning=FALSE, tidy=TRUE}
+
+
+
+```
+
+
+**Answer**: 
+
+
+
+
+$\\$
+
+
+
+
+
+![The white whale](https://render.fineartamerica.com/images/rendered/default/poster/8/10/break/images/artworkimages/medium/1/moby-dick-1-jerry-lofaro.jpg)
+
+
+
+
+
+

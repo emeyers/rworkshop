@@ -23,7 +23,7 @@ download_exercise <- function(exercise_number) {
   full_path <- paste0(base_path, file_name)
 
   # check the file exists on GitHub and if not throw and error
-  check_github_file_exists("exercise", file_name)
+  check_github_file_exists("exercises", file_name)
 
   utils::download.file(full_path, file_name)
 
